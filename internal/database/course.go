@@ -20,8 +20,9 @@ func NewCourse(db *sql.DB) *Course {
 
 func (c *Course) Create(name, description, categoryID string) (*Course, error){
 	id := uuid.New().String()
-	_, err := (`INSERT INTO courses (id, name, description, category_id) VALUES ($1, $2, $3, $4)`, id, name, description, categoryID)
-	err := c.db.Exec(query,id, name, description, categoryID).Scan(&c.ID)
+	query := `INSERT INTO courses (id, name, description, category_id) VALUES ($1, $2, $3, $4)`
+
+	_, err := c.db.Exec(query, id, name, description, categoryID)
 	if err != nil {
 		return nil, err
 	}
